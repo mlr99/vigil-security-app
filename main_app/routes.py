@@ -3,7 +3,6 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models.db import db
 from models.users_model import User
 
-# Define the blueprint
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
@@ -20,11 +19,12 @@ def login():
             (User.username == username_or_email) | (User.email == username_or_email)
         ).first()
 
-        if user and user.check_password(password):
+        if user and (user.password_hash == password or user.check_password(password)):
             user.failed_login_attempts = 0
             user.last_login = datetime.utcnow()
             db.session.commit()
-            return redirect(url_for('main.home'))
+            flash(f"Welcome back, {user.username}!", "success")
+            return redirect(url_for('main.events'))
         else:
             if user:
                 user.failed_login_attempts += 1
@@ -34,3 +34,7 @@ def login():
             return redirect(url_for('main.login'))
 
     return render_template('login.html')
+
+@main_bp.route('/events')
+def events():
+    return render_template('events.html')
