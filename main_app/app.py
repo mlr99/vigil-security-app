@@ -1,26 +1,16 @@
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from config import Config
+from models.db import db
+from routes import main_bp  # Import the blueprint
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
-# Your database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost/vigil_db'
+# Attach SQLAlchemy to the Flask app
+db.init_app(app)
 
-# Initialize SQLAlchemy
-db = SQLAlchemy(app)
+# Register the routes blueprint
+app.register_blueprint(main_bp)
 
-@app.route("/")
-def index():
-    # This serves as the mandatory "goal/purpose" or about page
-    return render_template("index.html")
-
-@app.route("/upload")
-def upload():
-    return render_template("upload.html")
-
-@app.route("/events")
-def events():
-    return render_template("events.html", events=[])
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
