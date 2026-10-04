@@ -1,6 +1,12 @@
 import os
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'vigil_dev_secret_key_123'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'mysql+pymysql://root:password@localhost/vigil_db'
+    SECRET_KEY = os.getenv('SECRET_KEY', 'vigil-dev-secret-key')
+    
+    # Check for DATABASE_URL environment variable (e.g. for MySQL on Dell).
+    # If not found, default to zero-config SQLite file on Mac/team machines.
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DATABASE_URL', 
+        'sqlite:///vigil.db'
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
