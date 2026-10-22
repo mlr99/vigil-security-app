@@ -1,4 +1,7 @@
+from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from models.db import db
+from models.users_model import User
 
 main_bp = Blueprint('main', __name__)
 
@@ -11,14 +14,39 @@ def home():
 @main_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session['user_id'] = 1
-        flash("Logged in successfully!", "success")
-        return redirect(url_for('main.events'))
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Query MySQL for user
+        user = User.query.filter_by(username=username).first()
+
+        if user and user.check_password(password):
+            if not user.is_active:
+                flash("Account is deactivated. Contact administrator.", "danger")
+                return render_template('login.html')
+
+            # Update login metrics in MySQL
+            session['user_id'] = user.user_id
+            session['username'] = user.username
+            user.last_login = datetime.utcnow()
+            user.failed_login_attempts = 0
+            db.session.commit()
+
+            flash("Logged in successfully!", "success")
+            return redirect(url_for('main.events'))
+        else:
+            if user:
+                user.failed_login_attempts += 1
+                db.session.commit()
+
+            flash("Invalid username or password.", "danger")
+
     return render_template('login.html')
 
 @main_bp.route('/logout')
 def logout():
     session.pop('user_id', None)
+    session.pop('username', None)
     flash("Logged out.", "info")
     return redirect(url_for('main.login'))
 
@@ -27,62 +55,21 @@ def events():
     if 'user_id' not in session:
         return redirect(url_for('main.login'))
 
-    # Rich mock data passed directly from the backend
+    # Query active registered users from MySQL
+    users_in_db = User.query.all()
+
+    # Format user data directly from the MySQL users table
     logs = [
         {
-            "username": "admin",
-            "time_active": "1h 20m",
-            "login_count": 5,
-            "alert_level": "Info",
-            "more_info": "Session initialized successfully",
-            "date": "2026-10-19",
-            "time": "12:25"
-        },
-        {
-            "username": "marvin",
-            "time_active": "45m",
-            "login_count": 2,
-            "alert_level": "Warning",
-            "more_info": "Multiple failed attempts before success",
-            "date": "2026-10-19",
-            "time": "12:20"
-        },
-        {
-            "username": "sarah_dev",
-            "time_active": "3h 10m",
-            "login_count": 8,
-            "alert_level": "Info",
-            "more_info": "DB migrations applied",
-            "date": "2026-10-19",
-            "time": "10:14"
-        },
-        {
-            "username": "guest_user",
-            "time_active": "10m",
-            "login_count": 1,
-            "alert_level": "Critical",
-            "more_info": "Unauthorized route access attempt",
-            "date": "2026-10-18",
-            "time": "23:45"
-        },
-        {
-            "username": "alex_m",
-            "time_active": "2h 05m",
-            "login_count": 3,
-            "alert_level": "Info",
-            "more_info": "Exported security audit report",
-            "date": "2026-10-18",
-            "time": "18:30"
-        },
-        {
-            "username": "bot_service",
-            "time_active": "0m",
-            "login_count": 12,
-            "alert_level": "Warning",
-            "more_info": "High frequency API requests detected",
-            "date": "2026-10-17",
-            "time": "04:12"
+            "username": user.username,
+            "time_active": "Active",
+            "login_count": user.failed_login_attempts,
+            "alert_level": "Warning" if user.failed_login_attempts > 2 else "Info",
+            "more_info": f"Email: {user.email} | Active: {user.is_active}",
+            "date": user.created_at.strftime('%Y-%m-%d') if user.created_at else "N/A",
+            "time": user.last_login.strftime('%H:%M') if user.last_login else "Never"
         }
+        for user in users_in_db
     ]
 
     return render_template('events.html', logs=logs)
