@@ -1,12 +1,15 @@
 import os
+from dotenv import load_dotenv
+
+# Load variables from your .env file
+load_dotenv()
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'vigil-dev-secret-key')
     
-    # Check for DATABASE_URL environment variable (e.g. for MySQL on Dell).
-    # If not found, default to zero-config SQLite file on Mac/team machines.
+    # Reads your MySQL connection string from .env
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_URL', 
-        'sqlite:///vigil.db'
+        'mysql+pymysql://root:password@localhost:3306/vigil_db'
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
