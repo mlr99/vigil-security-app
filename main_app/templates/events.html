@@ -23,6 +23,17 @@
 
         .card { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 25px; }
 
+        /* Form Controls */
+        .upload-form-group { display: flex; gap: 12px; align-items: center; margin-top: 10px; }
+        .file-input { padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; flex-grow: 1; background-color: #f8fafc; font-size: 0.9rem; }
+        .btn-upload { background: #0284c7; color: white; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+        .btn-upload:hover { background: #0369a1; }
+
+        /* Alerts */
+        .alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 15px; font-size: 0.85rem; font-weight: 500; }
+        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .alert-success { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+
         /* Filter controls layout */
         .filter-bar {
             display: grid;
@@ -69,6 +80,28 @@
         </div>
 
         <a href="{{ url_for('main.logout') }}" style="color: #ef4444; text-decoration: none; font-weight: 500;">Logout</a>
+    </div>
+
+    <!-- Flask Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'error' if category == 'error' else 'success' }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Monthly CSV Dataset Upload Card -->
+    <div class="card">
+        <h3 style="margin-top: 0; margin-bottom: 6px; color: #0f172a;">Ingest Monthly Dataset</h3>
+        <p style="margin: 0 0 12px 0; color: #64748b; font-size: 0.85rem;">Upload log dataset CSV (<code>timestamp, username, ip_address, status, failure_reason, user_agent</code>).</p>
+        
+        <form action="{{ url_for('main.upload_dataset') }}" method="POST" enctype="multipart/form-data">
+            <div class="upload-form-group">
+                <input type="file" id="dataset_file" name="dataset_file" accept=".csv" class="file-input" required>
+                <button type="submit" class="btn-upload">Upload & Ingest</button>
+            </div>
+        </form>
     </div>
 
     <!-- User Activity Log with Filters -->

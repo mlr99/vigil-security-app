@@ -1,9 +1,19 @@
+import os
 from datetime import datetime
+import pandas as pd
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.db import db
 from models.users_model import User
 
 main_bp = Blueprint('main', __name__)
+
+# Folder setup for CSV dataset processing
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+ALLOWED_EXTENSIONS = {'csv'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @main_bp.route('/')
 def home():
@@ -73,3 +83,44 @@ def events():
     ]
 
     return render_template('events.html', logs=logs)
+
+@main_bp.route('/datasets/upload', methods=['POST'])
+def upload_dataset():
+    if 'user_id' not in session:
+        return redirect(url_for('main.login'))
+
+    if 'dataset_file' not in request.files:
+        flash('No file part in request.', 'danger')
+        return redirect(url_for('main.events'))
+
+    file = request.files['dataset_file']
+
+    if file.filename == '':
+        flash('No file selected.', 'danger')
+        return redirect(url_for('main.events'))
+
+    if file and allowed_file(file.filename):
+        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(file_path)
+
+        # Basic Schema Validation
+        try:
+            df = pd.read_csv(file_path, nrows=5)
+            required_cols = {'timestamp', 'username', 'ip_address', 'status', 'failure_reason', 'user_agent'}
+
+            if not required_cols.issubset(set(df.columns)):
+                os.remove(file_path)
+                flash(f'Invalid CSV schema! Headers must include: {", ".join(required_cols)}', 'danger')
+                return redirect(url_for('main.events'))
+
+            flash(f'Dataset "{file.filename}" successfully uploaded and validated!', 'success')
+            return redirect(url_for('main.events'))
+
+        except Exception as e:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            flash(f'Error reading CSV file: {str(e)}', 'danger')
+            return redirect(url_for('main.events'))
+    else:
+        flash('Invalid file extension! Please upload a .csv file.', 'danger')
+        return redirect(url_for('main.events'))

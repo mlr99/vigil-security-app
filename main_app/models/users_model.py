@@ -15,7 +15,12 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        # Force pbkdf2:sha256 to ensure compatibility across all Python builds
+        self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        try:
+            return check_password_hash(self.password_hash, password)
+        except AttributeError:
+            # Handles legacy scrypt hashes safely if OpenSSL scrypt is unavailable
+            return False
