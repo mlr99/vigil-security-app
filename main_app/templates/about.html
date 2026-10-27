@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Vigil!</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #6791bb; color: #1e293b; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+
+        .btn-primary {
+            padding: 8px 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: white;
+            background-color: #0284c7;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover { background-color: #0369a1; }
+
+        .card { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        .card h3 { margin-top: 0; margin-bottom: 15px; color: #0f172a; }
+        .card p, .card li { line-height: 1.6; color: #475569; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <h2 style="margin: 0;">What is Vigil?</h2>
+        </div>
+
+        <a href="{{ url_for('main.events') }}" class="btn-primary">Continue to Dashboard &rarr;</a>
+    </div>
+
+    <!-- Overview -->
+    <div class="card">
+        <h3>Overview</h3>
+        <p>Vigil is a tool developed to help IT Security professionals for small organizations.</p>
+    </div>
+
+    <!-- Purpose -->
+    <div class="card">
+        <h3>Purpose</h3>
+        <p>The purpose of the app is for teams to upload log files and analyze them in order to detect irregular or suspicious activity
+            within their organization's IT infrastructure. They will be able to generate reports that can be seen by other people on the
+            team in order to make the entirety of the team aware of a potential security issue.
+        </p>
+    </div>
+
+    <!-- Team -->
+    <div class="card">
+        <h3>Team</h3>
+        <p>Vigil is developed by Marvin Rhodes, Kyle Cooper, and Tanner Benson</p>
+    </div>
+
+</body>
+</html>
