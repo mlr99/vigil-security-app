@@ -33,7 +33,7 @@ def login():
             db.session.commit()
 
             flash("Logged in successfully!", "success")
-            return redirect(url_for('main.events'))
+            return redirect(url_for('main.about'))
         else:
             if user:
                 user.failed_login_attempts += 1
@@ -73,3 +73,11 @@ def events():
     ]
 
     return render_template('events.html', logs=logs)
+
+
+#making route for the about page
+@main_bp.route('/about')
+def about():
+    if 'user_id' not in session:
+        return redirect(url_for('main.login'))
+    return render_template('about.html')
