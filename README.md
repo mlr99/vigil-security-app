@@ -1,97 +1,100 @@
-Vigil — First-Time Developer Setup Guide
-Follow these steps when pulling the project to get your local environment and MySQL database running.
-
-1. Prerequisites
-Ensure you have the following installed on your machine:
-
-Python 3.10+
-
-Git
-
-MySQL Server 8.0+ & MySQL Workbench
-
-2. Quick-Start Setup
-Step 1: Open Directory & Virtual Environment
-Navigate into capstone-capstone-project-group-1/main_app and activate your virtual environment:
-
-On Windows (PowerShell):
-
-PowerShell
+# Vigil
+ 
+Setup guide for running Vigil locally with MySQL.
+ 
+## Requirements
+ 
+- Python 3.10+
+- Git
+- MySQL Server 8.0+ (MySQL Workbench is optional but handy)
+## Setup
+ 
+All commands run from the `main_app` folder unless noted.
+ 
+### 1. Create and activate a virtual environment
+ 
+**Windows (PowerShell)**
+ 
+```powershell
 cd capstone-capstone-project-group-1/main_app
 python -m venv venv
 .\venv\Scripts\Activate.ps1
-On Mac / Linux (Terminal):
-
-Bash
-
+```
+ 
+> If PowerShell blocks the script, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then try again.
+ 
+**Mac / Linux**
+ 
+```bash
 cd capstone-capstone-project-group-1/main_app
 python3 -m venv venv
 source venv/bin/activate
-Step 2: Install Dependencies
-Install all required Python packages:
-
-Bash
-
+```
+ 
+### 2. Install dependencies
+ 
+```bash
 pip install -r requirements.txt
-Step 3: Prevent Accidental Commits (.gitignore)
-Run these commands once to ensure your machine automatically ignores .env and Python cache files so they never get pushed to GitHub:
-
-On Windows (PowerShell):
-
-PowerShell
-Add-Content -Path .gitignore -Value "`n.env`n__pycache__/`n*.pyc"
-
-On Mac / Linux (Terminal):
-
-Bash
-
-printf "\n.env\n__pycache__/\n*.pyc\n" >> .gitignore
-
-Step 4: Create Database in MySQL
-Open MySQL Workbench or your terminal MySQL client and create an empty database named vigil_db:
-
-SQL
+```
+ 
+### 3. Create the database
+ 
+In MySQL Workbench or the `mysql` command line:
+ 
+```sql
 CREATE DATABASE vigil_db;
-Step 5: Configure Environment Variables (.env)
-Create a file named .env inside the main_app/ folder. Replace YOUR_MYSQL_PASSWORD with your local MySQL root password.
-
-Windows (PowerShell command):
-
-PowerShell
-Set-Content -Path .env -Value "DATABASE_URL=mysql+pymysql://root:password@127.0.0.1:3306/vigil_db"
-Mac / Linux (Terminal command):
-
-Bash
-echo "DATABASE_URL=mysql+pymysql://root:password@127.0.0.1:3306/vigil_db" > .env
-Note: .env is git-ignored so each machine retains its local credentials. Do not force-commit .env to GitHub.
-
-Step 6: Initialize Database & Seed Admin
-Run the Alembic migrations to generate the database tables, then seed the default admin account:
-
-Bash
+```
+ 
+### 4. Add your database connection
+ 
+Create a file named `.env` in `main_app/` with this line, replacing `YOUR_PASSWORD` with your MySQL root password:
+ 
+```
+DATABASE_URL=mysql+pymysql://root:YOUR_PASSWORD@127.0.0.1:3306/vigil_db
+```
+ 
+`.env` is in `.gitignore`, so your password stays on your machine. Never commit it.
+ 
+### 5. Build the tables and create the admin account
+ 
+```bash
 flask db upgrade
 python seed_admin.py
-Default Account Credentials:
-
-Username: admin
-
-Password: password
-
-Step 7: Launch the Application
-Start the local development server:
-
-Bash
+```
+ 
+### 6. Run the app
+ 
+```bash
 python app.py
-Navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000) in your web browser and log in with admin / password.
-
-3. Git Workflow Guidelines
-To ensure Mac and Windows environments synchronize without conflicts:
-
-Bash
-git pull origin main
+```
+ 
+Open http://127.0.0.1:5000 and log in with:
+ 
+- **Username:** `admin`
+- **Password:** `password`
+## Updating after a pull
+ 
+When someone changes the database models, run this after pulling:
+ 
+```bash
+flask db upgrade
+```
+ 
+If you change a model yourself, create a migration and commit it with your code:
+ 
+```bash
+flask db migrate -m "Short description of the change"
+flask db upgrade
+```
+ 
+## Git workflow
+ 
+```bash
+git pull origin main          # always pull before starting work
 git add -A
 git commit -m "Describe your changes clearly"
 git push origin main
-Never commit .env or __pycache__/ folders.
-
-Always run git pull origin main before starting new work.
+```
+ 
+Never commit `.env`, `venv/`, or `__pycache__/`.
+ 
