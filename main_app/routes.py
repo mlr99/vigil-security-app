@@ -72,30 +72,74 @@ def events():
     if 'user_id' not in session:
         return redirect(url_for('main.login'))
 
-    # Query ingested EventLog records from MySQL (newest first)
-    event_records = EventLog.query.order_by(EventLog.timestamp.desc()).all()
+    # Query ingested EventLog records from MySQL (oldest first, so each
+    # user's events are processed in order)
+    event_records = EventLog.query.order_by(EventLog.timestamp.asc()).all()
+
+    # Group raw login events into one summary per user
+    users = {}
+    seen = set()
+    for log in event_records:
+        # Skip exact duplicates (e.g. the same CSV uploaded twice)
+        key = (log.timestamp, log.username, log.ip_address, log.status, log.failure_reason, log.user_agent)
+        if key in seen:
+            continue
+        seen.add(key)
+        name = log.username or "unknown"
+        u = users.setdefault(name, {
+            "first": None, "last": None, "attempts": 0,
+            "failures": 0, "reasons": [], "ips": set(),
+        })
+        if log.timestamp:
+            if u["first"] is None or log.timestamp < u["first"]:
+                u["first"] = log.timestamp
+            if u["last"] is None or log.timestamp > u["last"]:
+                u["last"] = log.timestamp
+        u["attempts"] += 1
+        if log.ip_address:
+            u["ips"].add(log.ip_address)
+        if str(log.status or "").upper() in ['FAILED', 'FAILURE', 'CRITICAL']:
+            u["failures"] += 1
+            reason = log.failure_reason or "Unknown reason"
+            if reason not in u["reasons"]:
+                u["reasons"].append(reason)
 
     logs = []
-    for log in event_records:
-        status_upper = str(log.status).upper() if log.status else "INFO"
-        
-        if status_upper in ['FAILED', 'FAILURE', 'CRITICAL']:
+    for name, u in users.items():
+        # Time Active: span between the user's first and last event
+        if u["first"] and u["last"]:
+            minutes = int((u["last"] - u["first"]).total_seconds() // 60)
+            time_active = f"{minutes // 60}h {minutes % 60}m" if minutes >= 60 else f"{minutes}m"
+        else:
+            time_active = "0m"
+
+        # Alerts: 3+ failed logins = Critical, 1-2 = Warning, none = Info
+        if u["failures"] >= 3:
             alert_level = "Critical"
-        elif status_upper in ['WARNING', 'WARN']:
+        elif u["failures"] >= 1:
             alert_level = "Warning"
         else:
             alert_level = "Info"
 
+        ip_text = f"{len(u['ips'])} IP" + ("s" if len(u["ips"]) != 1 else "")
+        if u["failures"]:
+            more_info = f"{u['failures']} failed: {', '.join(u['reasons'])} · {ip_text}"
+        else:
+            more_info = f"No failed logins · {ip_text}"
+
         logs.append({
-            "username": log.username,
-            "ip_address": log.ip_address or "N/A",
-            "status": log.status or "UNKNOWN",
+            "username": name,
+            "time_active": time_active,
+            "login_count": u["attempts"],
             "alert_level": alert_level,
-            "failure_reason": log.failure_reason,
-            "user_agent": log.user_agent or "N/A",
-            "date": log.timestamp.strftime('%Y-%m-%d') if log.timestamp else "N/A",
-            "time": log.timestamp.strftime('%H:%M:%S') if log.timestamp else "N/A"
+            "more_info": more_info,
+            "last_seen": u["last"],
+            "date": u["last"].strftime('%Y-%m-%d') if u["last"] else "N/A",
+            "time": u["last"].strftime('%H:%M:%S') if u["last"] else "N/A",
         })
+
+    # Most recently active users first
+    logs.sort(key=lambda r: r["last_seen"] or datetime.min, reverse=True)
 
     return render_template('events.html', logs=logs)
 
