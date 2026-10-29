@@ -1,0 +1,51 @@
+timestamp,username,ip_address,status,failure_reason,user_agent
+2026-10-26 00:24:37,ebrown,192.168.1.105,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-25 23:57:37,jsmith,192.168.1.105,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:17:37,dmarley,192.168.1.105,FAILED,IP blocked,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+2026-10-26 00:52:37,system_service,203.0.113.195,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:12:37,system_service,192.168.1.105,SUCCESS,,Python-urllib/3.10
+2026-10-25 23:19:37,mrhodes,203.0.113.195,SUCCESS,,Python-urllib/3.10
+2026-10-26 00:35:37,dmarley,198.51.100.4,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:22:37,ebrown,198.51.100.4,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:24:37,ebrown,10.0.0.12,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:56:37,ebrown,10.0.0.12,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:53:37,mrhodes,192.168.1.105,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:14:37,system_service,172.16.0.44,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-26 00:49:37,admin,172.16.0.44,SUCCESS,,Python-urllib/3.10
+2026-10-25 23:53:37,ebrown,203.0.113.195,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:45:37,jsmith,203.0.113.195,FAILED,Account locked,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 01:07:37,jsmith,172.16.0.44,FAILED,User not found,Python-urllib/3.10
+2026-10-26 00:19:37,jsmith,172.16.0.44,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-25 23:33:37,jsmith,198.51.100.4,FAILED,IP blocked,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:50:37,ebrown,198.51.100.4,FAILED,Account locked,Python-urllib/3.10
+2026-10-26 00:03:37,mrhodes,198.51.100.4,SUCCESS,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+2026-10-25 23:58:37,dmarley,198.51.100.4,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:56:37,admin,192.168.1.105,SUCCESS,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+2026-10-26 00:28:37,system_service,172.16.0.44,SUCCESS,,Python-urllib/3.10
+2026-10-25 23:39:37,system_service,198.51.100.4,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-25 23:55:37,jsmith,198.51.100.4,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:16:37,admin,192.168.1.105,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:15:37,jsmith,192.168.1.105,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:19:37,jsmith,10.0.0.12,FAILED,Account locked,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-26 00:24:37,system_service,192.168.1.105,SUCCESS,,Python-urllib/3.10
+2026-10-25 23:54:37,dmarley,10.0.0.12,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-25 23:20:37,admin,198.51.100.4,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:19:37,jsmith,198.51.100.4,FAILED,Account locked,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+2026-10-26 00:10:37,admin,192.168.1.105,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-26 00:46:37,ebrown,10.0.0.12,FAILED,IP blocked,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:35:37,jsmith,203.0.113.195,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-26 01:05:37,jsmith,203.0.113.195,FAILED,MFA timeout,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-25 23:47:37,dmarley,192.168.1.105,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:59:37,dmarley,10.0.0.12,FAILED,Account locked,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-25 23:51:37,admin,203.0.113.195,SUCCESS,,Python-urllib/3.10
+2026-10-26 00:13:37,admin,198.51.100.4,SUCCESS,,Python-urllib/3.10
+2026-10-26 00:20:37,admin,203.0.113.195,SUCCESS,,Python-urllib/3.10
+2026-10-26 00:35:37,ebrown,203.0.113.195,FAILED,IP blocked,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-25 23:17:37,system_service,192.168.1.105,SUCCESS,,Python-urllib/3.10
+2026-10-26 01:12:37,admin,192.168.1.105,FAILED,MFA timeout,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-25 23:29:37,admin,192.168.1.105,SUCCESS,,Python-urllib/3.10
+2026-10-26 00:55:37,mrhodes,10.0.0.12,FAILED,MFA timeout,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:45:37,system_service,203.0.113.195,SUCCESS,,Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+2026-10-26 00:20:37,system_service,172.16.0.44,SUCCESS,,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+2026-10-26 00:19:37,dmarley,198.51.100.4,SUCCESS,,Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+2026-10-26 00:51:37,dmarley,198.51.100.4,FAILED,MFA timeout,Python-urllib/3.10
