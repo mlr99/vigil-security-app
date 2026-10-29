@@ -97,4 +97,10 @@ git push origin main
 ```
  
 Never commit `.env`, `venv/`, or `__pycache__/`.
+
+## Testing Segment ##
+
+To run tests make sure Pytest is installed (It should be installed if you ran the "pip install -r requirements.txt" from earlier in the readme document)
+and then in the terminal enter "pytest tests/"
+this should automatically run through the test fodler and run all tests
  
