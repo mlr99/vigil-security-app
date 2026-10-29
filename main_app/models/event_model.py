@@ -2,13 +2,8 @@
 from datetime import datetime
 from models.db import db
 
-
 class EventLog(db.Model):
-    # New table name on purpose: your MySQL database already has an
-    # "event_logs" table built from the old model, and db.create_all()
-    # never adds columns to a table that exists. A new name lets
-    # create_all() build this table fresh with every column below,
-    # so no SQL or migration is needed. The old table is left untouched.
+
     __tablename__ = 'event_log_records'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,8 +16,7 @@ class EventLog(db.Model):
     failure_reason = db.Column(db.String(255), nullable=True)
     user_agent = db.Column(db.String(512), nullable=True)
 
-    # Optional link to an app account. Nullable because the CSV
-    # usernames don't have to exist in the users table.
+    # Optional link to an app account. Nullable because the CSV usernames don't have to exist in the users table.
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
     user = db.relationship('User', backref='event_logs')
 

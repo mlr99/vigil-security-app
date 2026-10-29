@@ -72,8 +72,7 @@ def events():
     if 'user_id' not in session:
         return redirect(url_for('main.login'))
 
-    # Query ingested EventLog records from MySQL (oldest first, so each
-    # user's events are processed in order)
+    # Query ingested EventLog records from MySQL (oldest first, so each user's events are processed in order)
     event_records = EventLog.query.order_by(EventLog.timestamp.asc()).all()
 
     # Group raw login events into one summary per user
