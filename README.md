@@ -1,6 +1,16 @@
 # Vigil
 
 Demonstration Video 1: https://docs.google.com/videos/d/1NWQYcpGBkTCcA4F6RHUtNciK83jQXGqXDVqZBpUWSdc/play?usp=sharing
+
+timestamps:
+0:00         Introduction
+00:23       README & Installation Instructions
+00:43       Vigil Login
+01:05        About Page
+01:23        Dashboard
+01:45        Log Ingestion
+02:05       Table Description
+03:46       PyTests
  
 Setup guide for running Vigil locally with MySQL.
  
