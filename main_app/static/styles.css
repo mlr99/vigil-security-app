@@ -5,26 +5,29 @@
  */
 
 :root {
-    --color-bg: #f8fafc;
-    --color-surface: #ffffff;
-    --color-surface-muted: #f1f5f9;
-    --color-border: #cbd5e1;
-    --color-border-light: #e2e8f0;
-    --color-text: #1e293b;
-    --color-heading: #0f172a;
-    --color-text-muted: #64748b;
-    --color-text-soft: #475569;
+    /* Dark blue theme */
+    --color-bg: #0b1426;
+    --color-surface: #13213d;
+    --color-surface-muted: #0f1b33;
+    --color-input: #0b1426;
+    --color-border: #24375e;
+    --color-border-light: #1c2d4f;
+    --color-text: #dbe4f3;
+    --color-heading: #f1f5fb;
+    --color-text-muted: #8a9bbb;
+    --color-text-soft: #b4c2db;
 
-    --color-primary: #0284c7;
-    --color-primary-hover: #0369a1;
-    --color-nav-bg: #0f172a;
-    --color-nav-text: #cbd5e1;
+    --color-primary: #2f6fed;
+    --color-primary-hover: #4a84f5;
+    --color-nav-bg: #071021;
+    --color-nav-text: #a9b8d4;
     --color-nav-active: #ffffff;
-    --color-danger: #ef4444;
+    --color-danger: #dc2626;
+    --color-danger-hover: #ef4444;
 
     --radius: 8px;
     --radius-sm: 6px;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -36,6 +39,7 @@ body {
     margin: 0;
     background-color: var(--color-bg);
     color: var(--color-text);
+    color-scheme: dark; /* dark native controls: date/time pickers, file input, scrollbars */
 }
 
 h1, h2, h3 { color: var(--color-heading); }
@@ -56,6 +60,7 @@ code {
     padding: 0 24px;
     height: 56px;
     background-color: var(--color-nav-bg);
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 .navbar-brand {
@@ -147,6 +152,16 @@ code {
 
 .btn:hover { background-color: var(--color-primary-hover); }
 .btn-block { width: 100%; padding: 12px; font-size: 1rem; }
+.btn-danger { background-color: var(--color-danger); }
+.btn-danger:hover { background-color: var(--color-danger-hover); }
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--color-border-light);
+}
 
 /* Forms */
 .form-group { margin-bottom: 18px; }
@@ -165,7 +180,8 @@ code {
     font-size: 0.9rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background-color: var(--color-surface);
+    background-color: var(--color-input);
+    color: var(--color-text);
     outline: none;
 }
 
@@ -178,7 +194,8 @@ code {
     font-size: 0.9rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background-color: var(--color-bg);
+    background-color: var(--color-input);
+    color: var(--color-text);
 }
 
 /* Flash alerts */
@@ -190,9 +207,9 @@ code {
     font-weight: 500;
 }
 
-.alert-danger  { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
-.alert-success { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
-.alert-info    { background: #e0f2fe; color: #075985; border: 1px solid #7dd3fc; }
+.alert-danger  { background: rgba(220, 38, 38, 0.15); color: #fca5a5; border: 1px solid rgba(248, 113, 113, 0.45); }
+.alert-success { background: rgba(22, 163, 74, 0.15); color: #86efac; border: 1px solid rgba(74, 222, 128, 0.4); }
+.alert-info    { background: rgba(47, 111, 237, 0.15); color: #93c5fd; border: 1px solid rgba(96, 165, 250, 0.45); }
 
 /* Dashboard Filters*/
 .filter-bar {
@@ -214,7 +231,8 @@ code {
     border: 1px solid var(--color-border);
     border-radius: 4px;
     outline: none;
-    background-color: var(--color-surface);
+    background-color: var(--color-input);
+    color: var(--color-text);
 }
 .filter-group input:focus { border-color: var(--color-primary); }
 
@@ -233,9 +251,11 @@ td { padding: 10px 12px; border-bottom: 1px solid var(--color-border-light); fon
 td.muted { color: var(--color-text-muted); }
 
 .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
-.badge-info     { background: #dcfce7; color: #166534; }
-.badge-warning  { background: #fef3c7; color: #92400e; }
-.badge-critical { background: #fee2e2; color: #991b1b; }
+.badge-info     { background: rgba(22, 163, 74, 0.2);  color: #86efac; }
+.badge-warning  { background: rgba(217, 119, 6, 0.2);  color: #fcd34d; }
+.badge-critical { background: rgba(220, 38, 38, 0.22); color: #fca5a5; }
+
+tbody tr:hover { background-color: rgba(47, 111, 237, 0.06); }
 
 .no-results { text-align: center; color: var(--color-text-muted); font-style: italic; padding: 20px; }
 .hidden { display: none; }

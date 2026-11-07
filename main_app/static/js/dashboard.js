@@ -37,6 +37,13 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        //ask before submitting destructive forms (ex. Remove Ingested Data)
+        document.querySelectorAll('form.js-confirm').forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!window.confirm(form.dataset.confirm)) event.preventDefault();
+            });
+        });
+
         FILTER_IDS.forEach(function (id) {
             const input = document.getElementById(id);
             input.addEventListener(input.type === 'text' ? 'input' : 'change', applyFilters);

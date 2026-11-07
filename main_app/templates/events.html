@@ -18,6 +18,15 @@
                 <button type="submit" class="btn">Upload &amp; Ingest</button>
             </div>
         </form>
+
+        {% if logs %}
+        <div class="card-actions">
+            <form action="{{ url_for('main.clear_events') }}" method="POST" class="js-confirm"
+                  data-confirm="Remove all ingested data? This deletes every event record and uploaded CSV and cannot be undone.">
+                <button type="submit" class="btn btn-danger">Remove Ingested Data</button>
+            </form>
+        </div>
+        {% endif %}
     </div>
 
     <div class="card">

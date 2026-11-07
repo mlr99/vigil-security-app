@@ -6,6 +6,7 @@ from models.db import db
 from models.users_model import User
 from models.event_model import EventLog
 from services.log_processor import LogProcessor, DatasetValidationError
+from services.dataset_service import DatasetService
 
 main_bp = Blueprint('main', __name__)
 
@@ -15,6 +16,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {'csv'}
 
 log_processor = LogProcessor()
+dataset_service = DatasetService(UPLOAD_FOLDER)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -30,7 +32,7 @@ def login_required(view):
 @main_bp.route('/')
 def home():
     if 'user_id' in session:
-        return redirect(url_for('main.about'))
+        return redirect(url_for('main.events'))
     return redirect(url_for('main.login'))
 
 @main_bp.route('/login', methods=['GET', 'POST'])
@@ -55,7 +57,7 @@ def login():
             db.session.commit()
 
             flash("Logged in successfully!", "success")
-            return redirect(url_for('main.about'))
+            return redirect(url_for('main.events'))
         else:
             if user:
                 user.failed_login_attempts += 1
@@ -130,11 +132,9 @@ def upload_dataset():
 @login_required
 def clear_events():
     try:
-        num_deleted = db.session.query(EventLog).delete()
-        db.session.commit()
-        flash(f'Successfully cleared {num_deleted} event log records from the system.', 'success')
+        num_deleted = dataset_service.clear_all()
+        flash(f'Cleared {num_deleted} event records. All ingested data has been removed.', 'success')
     except Exception as e:
-        db.session.rollback()
         flash(f'Error clearing logs: {str(e)}', 'danger')
 
     return redirect(url_for('main.events'))
