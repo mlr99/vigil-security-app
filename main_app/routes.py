@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, UTC
 from functools import wraps
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.db import db
@@ -52,7 +52,7 @@ def login():
             # Update login metrics in MySQL
             session['user_id'] = user.user_id
             session['username'] = user.username
-            user.last_login = datetime.utcnow()
+            user.last_login = datetime.now(UTC)
             user.failed_login_attempts = 0
             db.session.commit()
 

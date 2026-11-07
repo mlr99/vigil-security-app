@@ -1,5 +1,5 @@
 # models/event_model.py
-from datetime import datetime
+from datetime import datetime, UTC
 from models.db import db
 
 class EventLog(db.Model):
@@ -9,7 +9,7 @@ class EventLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # Fields from the uploaded CSV (used by upload_dataset and /events)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.now(UTC), index=True)
     username = db.Column(db.String(150), nullable=False, index=True)
     ip_address = db.Column(db.String(45))            # 45 fits IPv6
     status = db.Column(db.String(20))

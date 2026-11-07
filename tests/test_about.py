@@ -1,4 +1,4 @@
-#Tests about page is reachable from the navbar after a successful login
+#Tests about page to ensure it's reachable from the navbar after a successful login
 
 def login(client):
     return client.post(
