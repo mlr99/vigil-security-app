@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, UTC
 from werkzeug.security import generate_password_hash, check_password_hash
 from .db import db  # Imports the db instance from models/db.py
 
@@ -12,7 +12,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     failed_login_attempts = db.Column(db.Integer, default=0)
     last_login = db.Column(db.DateTime, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now(UTC))
 
     def set_password(self, password):
         # Force pbkdf2:sha256 to ensure compatibility across all Python builds
